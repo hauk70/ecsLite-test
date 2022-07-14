@@ -8,30 +8,24 @@ namespace EcsTest
     public class EcsController : IDisposable
     {
         private readonly EcsWorld _world;
-        private readonly EcsSystems _updateSystems;
         private readonly EcsSystems _fixedUpdateSystems;
 
         public EcsController()
         {
             _world = new EcsWorld();
 
-            _updateSystems = new EcsSystems(_world);
             _fixedUpdateSystems = new EcsSystems(_world);
 
             _fixedUpdateSystems.Add(new PlayerInputSystem());
             _fixedUpdateSystems.Add(new MovementSystem());
             _fixedUpdateSystems.Add(new UpdateViewPositionSystem());
             _fixedUpdateSystems.Add(new SimpleCollisionSystem());
+            _fixedUpdateSystems.Add(new DoorActivationSystem());
 
-            MapEntities();
+            PrepareScene();
+            CreateEntitiesFromLevel();
 
-            _updateSystems.Init();
             _fixedUpdateSystems.Init();
-        }
-
-        public void Update()
-        {
-            _updateSystems?.Run();
         }
 
         public void FixedUpdate()
@@ -42,11 +36,10 @@ namespace EcsTest
         public void Dispose()
         {
             _world?.Destroy();
-            _updateSystems?.Destroy();
             _fixedUpdateSystems?.Destroy();
         }
 
-        void MapEntities()
+        void PrepareScene()
         {
             var time = _world.NewEntity();
             _world.GetPool<TimeComponent>()
@@ -57,29 +50,24 @@ namespace EcsTest
             _world.GetPool<CameraComponent>()
                 .Add(camera)
                 .Camera = Camera.main;
+        }
 
+        void CreateEntitiesFromLevel()
+        {
             foreach (var player in Object.FindObjectsOfType<PlayerView>())
             {
                 var entity = _world.NewEntity();
 
-                _world.GetPool<PositionComponent>()
-                    .Add(entity)
-                    .Position = player.transform.position;
-
-                _world.GetPool<SizeComponent>()
-                    .Add(entity)
-                    .Radius = player.BodyRadius;
-
+                CreatePositionComponent(entity, player);
+                CreateSizeComponent(entity, player.BodyRadius);
+                CreateViewComponent(entity, player.gameObject);
+                
                 _world.GetPool<TriggerActivatorComponent>()
                     .Add(entity);
 
                 _world.GetPool<MovementSpeedComponent>()
                     .Add(entity)
                     .Speed = player.MoveSpeed;
-
-                _world.GetPool<ViewComponent>()
-                    .Add(entity)
-                    .GameObject = player.gameObject;
 
                 break;
             }
@@ -88,17 +76,13 @@ namespace EcsTest
             {
                 var entity = _world.NewEntity();
 
+                CreatePositionComponent(entity, button);
+                CreateSizeComponent(entity, button.TriggerRadius);
+                CreateViewComponent(entity, button.gameObject);
+
                 _world.GetPool<ButtonComponent>()
                     .Add(entity)
                     .Id = button.Id;
-
-                _world.GetPool<SizeComponent>()
-                    .Add(entity)
-                    .Radius = button.TriggerRadius;
-
-                _world.GetPool<PositionComponent>()
-                    .Add(entity)
-                    .Position = button.transform.position;
 
                 _world.GetPool<TriggerReactionsComponent>()
                     .Add(entity);
@@ -108,17 +92,40 @@ namespace EcsTest
             {
                 var entity = _world.NewEntity();
 
-                _world.GetPool<PositionComponent>()
-                    .Add(entity)
-                    .Position = door.transform.position;
+                CreatePositionComponent(entity, door);
+                CreateViewComponent(entity, door.gameObject);
 
-                _world.GetPool<TriggerActivatorComponent>()
+                _world.GetPool<ProgressComponent>()
                     .Add(entity);
 
-                _world.GetPool<ViewComponent>()
-                    .Add(entity)
-                    .GameObject = door.gameObject;
+                ref var doorComponent = ref _world.GetPool<DoorComponent>()
+                    .Add(entity);
+                doorComponent.TriggerId = door.TriggerId;
+                doorComponent.OpenedPosition = door.OpenPosition;
+                doorComponent.ClosedPosition = door.ClosedPosition;
+                doorComponent.OpeningTime = door.OpeningTime;
             }
+        }
+
+        private void CreateViewComponent(int entity, GameObject obj)
+        {
+            _world.GetPool<ViewComponent>()
+                .Add(entity)
+                .GameObject = obj;
+        }
+
+        private void CreatePositionComponent(int entity, MonoBehaviour obj)
+        {
+            _world.GetPool<PositionComponent>()
+                .Add(entity)
+                .Position = obj.transform.position;
+        }
+
+        private void CreateSizeComponent(int entity, float radius)
+        {
+            _world.GetPool<SizeComponent>()
+                .Add(entity)
+                .Radius = radius;
         }
     }
 }

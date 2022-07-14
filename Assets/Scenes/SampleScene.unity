@@ -772,8 +772,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TriggerId: 0
-  OpenInClockwiseDirection: 1
-  OpeningSpeed: 10
+  OpeningTime: 2
+  OpenPosition: {x: 9.44, y: 2, z: 0}
+  ClosedPosition: {x: 9.44, y: 0, z: 0}
 --- !u!1 &1727622859
 GameObject:
   m_ObjectHideFlags: 0

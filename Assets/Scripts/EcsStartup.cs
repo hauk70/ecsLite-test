@@ -11,11 +11,6 @@ namespace EcsTest
             _ecsController = new EcsController();
         }
 
-        void Update()
-        {
-            _ecsController.Update();
-        }
-
         private void FixedUpdate()
         {
             _ecsController.FixedUpdate();

@@ -19,6 +19,7 @@ namespace EcsTest
             _fixedUpdateSystems.Add(new PlayerInputSystem());
             _fixedUpdateSystems.Add(new MovementSystem());
             _fixedUpdateSystems.Add(new UpdateViewPositionSystem());
+            _fixedUpdateSystems.Add(new PlayerAnimationSystem());
             _fixedUpdateSystems.Add(new SimpleCollisionSystem());
             _fixedUpdateSystems.Add(new DoorActivationSystem());
 
@@ -61,7 +62,11 @@ namespace EcsTest
                 CreatePositionComponent(entity, player);
                 CreateSizeComponent(entity, player.BodyRadius);
                 CreateViewComponent(entity, player.gameObject);
-                
+
+                _world.GetPool<AnimatorComponent>()
+                    .Add(entity)
+                    .Animator = player.Animator;
+
                 _world.GetPool<TriggerActivatorComponent>()
                     .Add(entity);
 

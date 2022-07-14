@@ -1,4 +1,4 @@
-﻿namespace EcsTest
+﻿namespace EcsTest.Components
 {
     public struct ProgressComponent
     {

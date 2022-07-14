@@ -1,7 +1,8 @@
-﻿using Leopotam.EcsLite;
+﻿using EcsTest.Components;
+using Leopotam.EcsLite;
 using UnityEngine;
 
-namespace EcsTest
+namespace EcsTest.Systems
 {
     public class DoorActivationSystem : IEcsRunSystem
     {

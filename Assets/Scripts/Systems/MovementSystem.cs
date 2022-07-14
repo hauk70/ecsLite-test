@@ -1,7 +1,7 @@
-﻿using Leopotam.EcsLite;
-using UnityEngine;
+﻿using EcsTest.Components;
+using Leopotam.EcsLite;
 
-namespace EcsTest
+namespace EcsTest.Systems
 {
     public class MovementSystem : IEcsRunSystem
     {

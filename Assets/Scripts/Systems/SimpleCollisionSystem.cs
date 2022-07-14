@@ -1,6 +1,7 @@
 ﻿using Leopotam.EcsLite;
+using EcsTest.Components;
 
-namespace EcsTest
+namespace EcsTest.Systems
 {
     public class SimpleCollisionSystem : IEcsRunSystem
     {

@@ -1,7 +1,8 @@
 ﻿using System;
 using Leopotam.EcsLite;
 using UnityEngine;
-using Object = UnityEngine.Object;
+using EcsTest.Components;
+using EcsTest.Systems;
 
 namespace EcsTest
 {
@@ -55,7 +56,7 @@ namespace EcsTest
 
         void CreateEntitiesFromLevel()
         {
-            foreach (var player in Object.FindObjectsOfType<PlayerView>())
+            foreach (var player in UnityEngine.Object.FindObjectsOfType<PlayerView>())
             {
                 var entity = _world.NewEntity();
 
@@ -77,7 +78,7 @@ namespace EcsTest
                 break;
             }
 
-            foreach (var button in Object.FindObjectsOfType<ButtonView>())
+            foreach (var button in UnityEngine.Object.FindObjectsOfType<ButtonView>())
             {
                 var entity = _world.NewEntity();
 
@@ -93,7 +94,7 @@ namespace EcsTest
                     .Add(entity);
             }
 
-            foreach (var door in Object.FindObjectsOfType<DoorView>())
+            foreach (var door in UnityEngine.Object.FindObjectsOfType<DoorView>())
             {
                 var entity = _world.NewEntity();
 

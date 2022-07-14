@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace EcsTest
+namespace EcsTest.Components
 {
     public struct DoorComponent
     {

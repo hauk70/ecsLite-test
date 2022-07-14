@@ -47,8 +47,12 @@ namespace EcsTest
 
         void MapEntities()
         {
-            var camera = _world.NewEntity();
+            var time = _world.NewEntity();
+            _world.GetPool<TimeComponent>()
+                .Add(time)
+                .delta = Time.fixedDeltaTime;
 
+            var camera = _world.NewEntity();
             _world.GetPool<CameraComponent>()
                 .Add(camera)
                 .Camera = Camera.main;

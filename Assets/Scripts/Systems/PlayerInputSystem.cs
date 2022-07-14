@@ -16,7 +16,7 @@ namespace EcsTest
 
             var ray = camera.ScreenPointToRay(Input.mousePosition);
 
-            if (!Physics.Raycast(ray, out var hit, 1000))
+            if (!Physics.Raycast(ray, out var hit, 1000,LayerMask.GetMask("Ground")))
                 return;
 
             var goToCommandFilter = world.Filter<GoToComponent>()

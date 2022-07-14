@@ -9,25 +9,14 @@ namespace EcsTest
         {
             var world = systems.GetWorld();
 
-            Camera camera = null;
-            var sceneSettingsFilter = world.Filter<CameraComponent>()
-                .End();
-            var settingsPool = world.GetPool<CameraComponent>();
-            foreach (var entity in sceneSettingsFilter)
-            {
-                ref var sceneSettingsComponent = ref settingsPool.Get(entity);
-                camera = sceneSettingsComponent.Camera;
-                break;
-            }
+            Camera camera = Utils.FetchFirst<CameraComponent>(world).Camera;
 
             if (!Input.GetMouseButton(0))
                 return;
 
             var ray = camera.ScreenPointToRay(Input.mousePosition);
 
-            if (!Physics.Raycast(ray, out var hit, 1000
-                //, LayerMask.NameToLayer("Ground")
-            ))
+            if (!Physics.Raycast(ray, out var hit, 1000))
                 return;
 
             var goToCommandFilter = world.Filter<GoToComponent>()

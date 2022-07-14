@@ -18,9 +18,10 @@ namespace EcsTest
             _updateSystems = new EcsSystems(_world);
             _fixedUpdateSystems = new EcsSystems(_world);
 
-            _fixedUpdateSystems.Add(new UpdateViewPositionSystem());
             _fixedUpdateSystems.Add(new PlayerInputSystem());
             _fixedUpdateSystems.Add(new MovementSystem());
+            _fixedUpdateSystems.Add(new UpdateViewPositionSystem());
+            _fixedUpdateSystems.Add(new SimpleCollisionSystem());
 
             MapEntities();
 
@@ -65,6 +66,13 @@ namespace EcsTest
                     .Add(entity)
                     .Position = player.transform.position;
 
+                _world.GetPool<SizeComponent>()
+                    .Add(entity)
+                    .Radius = player.BodyRadius;
+
+                _world.GetPool<TriggerActivatorComponent>()
+                    .Add(entity);
+
                 _world.GetPool<MovementSpeedComponent>()
                     .Add(entity)
                     .Speed = player.MoveSpeed;
@@ -76,6 +84,41 @@ namespace EcsTest
                 break;
             }
 
+            foreach (var button in Object.FindObjectsOfType<ButtonView>())
+            {
+                var entity = _world.NewEntity();
+
+                _world.GetPool<ButtonComponent>()
+                    .Add(entity)
+                    .Id = button.Id;
+
+                _world.GetPool<SizeComponent>()
+                    .Add(entity)
+                    .Radius = button.TriggerRadius;
+
+                _world.GetPool<PositionComponent>()
+                    .Add(entity)
+                    .Position = button.transform.position;
+
+                _world.GetPool<TriggerReactionsComponent>()
+                    .Add(entity);
+            }
+
+            foreach (var door in Object.FindObjectsOfType<DoorView>())
+            {
+                var entity = _world.NewEntity();
+
+                _world.GetPool<PositionComponent>()
+                    .Add(entity)
+                    .Position = door.transform.position;
+
+                _world.GetPool<TriggerActivatorComponent>()
+                    .Add(entity);
+
+                _world.GetPool<ViewComponent>()
+                    .Add(entity)
+                    .GameObject = door.gameObject;
+            }
         }
     }
 }

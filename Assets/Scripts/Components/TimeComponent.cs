@@ -1,7 +1,7 @@
 ﻿namespace EcsTest
 {
-    public class TimeComponent
+    public struct TimeComponent
     {
-        
+        public float delta;
     }
 }

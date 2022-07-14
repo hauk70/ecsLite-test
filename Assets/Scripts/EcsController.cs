@@ -1,10 +1,11 @@
 ﻿using System;
 using Leopotam.EcsLite;
 using UnityEngine;
-using EcsTest.Components;
-using EcsTest.Components.Client;
-using EcsTest.Systems;
-using EcsTest.Systems.Client;
+using EcsTest.Client.Components;
+using EcsTest.Client.Systems;
+using EcsTest.Client.View;
+using EcsTest.Shared.Components;
+using EcsTest.Shared.Systems;
 
 namespace EcsTest
 {

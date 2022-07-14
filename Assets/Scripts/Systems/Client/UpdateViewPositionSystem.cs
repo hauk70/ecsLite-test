@@ -1,7 +1,8 @@
 ﻿using Leopotam.EcsLite;
 using EcsTest.Components;
+using EcsTest.Components.Client;
 
-namespace EcsTest.Systems
+namespace EcsTest.Systems.Client
 {
     public class UpdateViewPositionSystem : IEcsRunSystem
     {

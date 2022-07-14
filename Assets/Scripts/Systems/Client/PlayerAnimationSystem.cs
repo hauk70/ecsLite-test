@@ -1,8 +1,9 @@
 ﻿using EcsTest.Components;
+using EcsTest.Components.Client;
 using Leopotam.EcsLite;
 using UnityEngine;
 
-namespace EcsTest.Systems
+namespace EcsTest.Systems.Client
 {
     public class PlayerAnimationSystem : IEcsRunSystem
     {

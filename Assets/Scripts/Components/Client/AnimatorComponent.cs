@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace EcsTest.Components
+namespace EcsTest.Components.Client
 {
     public struct AnimatorComponent
     {

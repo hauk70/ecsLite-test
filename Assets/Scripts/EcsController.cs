@@ -2,7 +2,9 @@
 using Leopotam.EcsLite;
 using UnityEngine;
 using EcsTest.Components;
+using EcsTest.Components.Client;
 using EcsTest.Systems;
+using EcsTest.Systems.Client;
 
 namespace EcsTest
 {
